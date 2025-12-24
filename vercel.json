@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/openai/v1/chat/completions",
+      "dest": "/api/openai/v1/chat/completions.js"
+    },
+    {
+      "src": "/api/openai/v1/models",
+      "dest": "/api/openai/v1/models.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 30
+    }
+  }
+}

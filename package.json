@@ -1,0 +1,22 @@
+{
+  "name": "ai-proxy-server",
+  "version": "1.0.0",
+  "description": "Proxy server for bypassing regional AI model restrictions",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "rate-limiter-flexible": "^5.0.3"
+  },
+  "devDependencies": {
+    "vercel": "^37.4.0"
+  },
+  "keywords": ["proxy", "ai", "openai", "anthropic", "vercel"],
+  "author": "",
+  "license": "MIT"
+}
