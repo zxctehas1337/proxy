@@ -116,6 +116,113 @@ app.all('/openai/v1/models', asyncHandler(async (req, res) => {
   res.status(response.status).json(data);
 }));
 
+// Models endpoint
+app.get('/models', asyncHandler(async (req, res) => {
+  await rateLimiter.consume(req.ip);
+  
+  // Comprehensive model list
+  const models = {
+    openai: [
+      {
+        id: 'gpt-5-nano',
+        name: 'GPT-5 Nano',
+        description: 'Compact and efficient GPT-5 model for basic tasks',
+        capabilities: ['text', 'function-calling'],
+        context_window: 128000,
+        max_tokens: 4096,
+        provider: 'openai'
+      },
+      {
+        id: 'gpt-5-mini',
+        name: 'GPT-5 Mini',
+        description: 'Balanced GPT-5 model for everyday tasks',
+        capabilities: ['text', 'function-calling', 'code-generation'],
+        context_window: 128000,
+        max_tokens: 8192,
+        provider: 'openai'
+      },
+      {
+        id: 'gpt-5-chat-latest',
+        name: 'GPT-5 Chat Latest',
+        description: 'Latest GPT-5 model optimized for conversations',
+        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai'
+      },
+      {
+        id: 'gpt-5',
+        name: 'GPT-5',
+        description: 'Standard GPT-5 model with advanced capabilities',
+        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai'
+      },
+      {
+        id: 'gpt-5.1-Codex',
+        name: 'GPT-5.1 Codex',
+        description: 'GPT-5.1 model specialized for code generation and programming',
+        capabilities: ['text', 'code-generation', 'function-calling', 'analysis'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai'
+      },
+      {
+        id: 'gpt-4.1',
+        name: 'GPT-4.1',
+        description: 'Refined GPT-4 model with improved performance',
+        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 128000,
+        max_tokens: 8192,
+        provider: 'openai'
+      },
+      {
+        id: 'o3-deep-research',
+        name: 'O3 Deep Research',
+        description: 'Advanced reasoning model for deep research and complex analysis',
+        capabilities: ['text', 'analysis', 'reasoning'],
+        context_window: 128000,
+        max_tokens: 32768,
+        provider: 'openai'
+      },
+      {
+        id: 'gpt-image-1',
+        name: 'GPT Image 1',
+        description: 'GPT model specialized for image generation and understanding',
+        capabilities: ['vision', 'text', 'analysis'],
+        context_window: 128000,
+        max_tokens: 4096,
+        provider: 'openai'
+      }
+    ],
+    xai: [
+      { id: 'grok-4-fast-non-reasoning', name: 'Grok-4 Fast (Non-Reasoning)', provider: 'xai' },
+      { id: 'grok-4-fast-reasoning', name: 'Grok-4 Fast (Reasoning)', provider: 'xai' },
+      { id: 'grok-4-1-fast-non-reasoning', name: 'Grok-4.1 Fast (Non-Reasoning)', provider: 'xai' },
+      { id: 'grok-4-1-fast-reasoning', name: 'Grok-4.1 Fast (Reasoning)', provider: 'xai' },
+      { id: 'grok-code-fast-1', name: 'Grok Code Fast', provider: 'xai' },
+      { id: 'grok-4', name: 'Grok-4', provider: 'xai' }
+    ],
+    anthropic: [
+      { id: 'claude-3-5-sonnet-20241022', name: 'Claude 3.5 Sonnet', provider: 'anthropic' },
+      { id: 'claude-3-5-haiku-20241022', name: 'Claude 3.5 Haiku', provider: 'anthropic' },
+      { id: 'claude-3-opus-20240229', name: 'Claude 3 Opus', provider: 'anthropic' }
+    ],
+    google: [
+      { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', provider: 'google' },
+      { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', provider: 'google' },
+      { id: 'gemini-pro', name: 'Gemini Pro', provider: 'google' }
+    ]
+  };
+
+  res.status(200).json({
+    models,
+    total: Object.values(models).flat().length,
+    timestamp: new Date().toISOString()
+  });
+}));
+
 // Generic proxy for other OpenAI endpoints
 app.all('/openai/*', asyncHandler(async (req, res) => {
   await rateLimiter.consume(req.ip);
