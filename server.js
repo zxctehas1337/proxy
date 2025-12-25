@@ -212,7 +212,14 @@ app.get('/models', asyncHandler(async (req, res) => {
     google: [
       { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro', provider: 'google' },
       { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash', provider: 'google' },
-      { id: 'gemini-pro', name: 'Gemini Pro', provider: 'google' }
+      { id: 'gemini-pro', name: 'Gemini Pro', provider: 'google' },
+      { id: 'gemini-2.0-flash-lite', name: 'Gemini 2.0 Flash Lite', provider: 'google' },
+      { id: 'gemini-2.5-flash-lite', name: 'Gemini 2.5 Flash Lite', provider: 'google' },
+      { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash', provider: 'google' },
+      { id: 'gemini-2.5-flash', name: 'Gemini 2.5 Flash', provider: 'google' },
+      { id: 'gemini-3-flash', name: 'Gemini 3 Flash', provider: 'google' },
+      { id: 'gemini-2.5-pro', name: 'Gemini 2.5 Pro', provider: 'google' },
+      { id: 'gemini-3-pro', name: 'Gemini 3 Pro', provider: 'google' }
     ]
   };
 
