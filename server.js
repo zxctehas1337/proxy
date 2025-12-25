@@ -120,80 +120,252 @@ app.all('/openai/v1/models', asyncHandler(async (req, res) => {
 app.get('/models', asyncHandler(async (req, res) => {
   await rateLimiter.consume(req.ip);
   
-  // Comprehensive model list
+  // Comprehensive model list - OpenAI models sorted from cheapest to most expensive
   const models = {
     openai: [
+      // GPT-4.1 series (cheapest)
       {
-        id: 'gpt-5-nano',
-        name: 'GPT-5 Nano',
-        description: 'Compact and efficient GPT-5 model for basic tasks',
+        id: 'gpt-4.1-nano',
+        name: 'GPT-4.1 Nano',
+        description: 'Самая быстрая и дешевая модель GPT-4.1 для простых задач',
         capabilities: ['text', 'function-calling'],
+        context_window: 1047576,
+        max_tokens: 32768,
+        provider: 'openai',
+        pricing: { input: 0.10, output: 0.40 }
+      },
+      {
+        id: 'gpt-4.1-mini',
+        name: 'GPT-4.1 Mini',
+        description: 'Сбалансированная модель GPT-4.1 для повседневных задач',
+        capabilities: ['text', 'function-calling', 'code-generation'],
+        context_window: 1047576,
+        max_tokens: 32768,
+        provider: 'openai',
+        pricing: { input: 0.40, output: 1.60 }
+      },
+      // GPT-4o Mini
+      {
+        id: 'gpt-4o-mini',
+        name: 'GPT-4o Mini',
+        description: 'Компактная и быстрая версия GPT-4o',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation'],
         context_window: 128000,
-        max_tokens: 4096,
-        provider: 'openai'
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 0.15, output: 0.60 }
+      },
+      // o3-mini (reasoning, budget)
+      {
+        id: 'o3-mini',
+        name: 'O3 Mini',
+        description: 'Бюджетная reasoning модель для логических задач',
+        capabilities: ['text', 'reasoning', 'code-generation'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 1.10, output: 4.40 }
+      },
+      // o4-mini (latest reasoning mini)
+      {
+        id: 'o4-mini',
+        name: 'O4 Mini',
+        description: 'Новейшая компактная reasoning модель',
+        capabilities: ['text', 'reasoning', 'code-generation', 'analysis'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 1.10, output: 4.40 }
+      },
+      // GPT-4o
+      {
+        id: 'gpt-4o',
+        name: 'GPT-4o',
+        description: 'Флагманская мультимодальная модель OpenAI',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 2.50, output: 10.00 }
+      },
+      {
+        id: 'chatgpt-4o-latest',
+        name: 'ChatGPT-4o Latest',
+        description: 'Последняя версия GPT-4o для ChatGPT',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 2.50, output: 10.00 }
+      },
+      // GPT-4.1 (standard)
+      {
+        id: 'gpt-4.1',
+        name: 'GPT-4.1',
+        description: 'Улучшенная версия GPT-4 с расширенным контекстом',
+        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 1047576,
+        max_tokens: 32768,
+        provider: 'openai',
+        pricing: { input: 2.00, output: 8.00 }
+      },
+      // o1 series
+      {
+        id: 'o1-mini',
+        name: 'O1 Mini',
+        description: 'Компактная reasoning модель для STEM задач',
+        capabilities: ['text', 'reasoning', 'code-generation'],
+        context_window: 128000,
+        max_tokens: 65536,
+        provider: 'openai',
+        pricing: { input: 1.10, output: 4.40 }
+      },
+      {
+        id: 'o1',
+        name: 'O1',
+        description: 'Продвинутая reasoning модель для сложных задач',
+        capabilities: ['text', 'reasoning', 'code-generation', 'analysis'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 15.00, output: 60.00 }
+      },
+      {
+        id: 'o1-pro',
+        name: 'O1 Pro',
+        description: 'Профессиональная версия O1 с улучшенным reasoning',
+        capabilities: ['text', 'reasoning', 'code-generation', 'analysis'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 150.00, output: 600.00 }
+      },
+      // o3 series
+      {
+        id: 'o3',
+        name: 'O3',
+        description: 'Новейшая reasoning модель с улучшенными возможностями',
+        capabilities: ['text', 'reasoning', 'code-generation', 'analysis'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 10.00, output: 40.00 }
+      },
+      {
+        id: 'o3-pro',
+        name: 'O3 Pro',
+        description: 'Профессиональная версия O3 для сложнейших задач',
+        capabilities: ['text', 'reasoning', 'code-generation', 'analysis'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 20.00, output: 80.00 }
+      },
+      // GPT-4.5 Preview
+      {
+        id: 'gpt-4.5-preview',
+        name: 'GPT-4.5 Preview',
+        description: 'Превью следующего поколения GPT с улучшенным EQ',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation', 'analysis'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 75.00, output: 150.00 }
+      },
+      // GPT-5 series (newest)
+      {
+        id: 'gpt-5',
+        name: 'GPT-5',
+        description: 'Новейшая флагманская модель OpenAI',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation', 'analysis', 'reasoning'],
+        context_window: 256000,
+        max_tokens: 32768,
+        provider: 'openai',
+        pricing: { input: 10.00, output: 30.00 }
       },
       {
         id: 'gpt-5-mini',
         name: 'GPT-5 Mini',
-        description: 'Balanced GPT-5 model for everyday tasks',
-        capabilities: ['text', 'function-calling', 'code-generation'],
-        context_window: 128000,
-        max_tokens: 8192,
-        provider: 'openai'
-      },
-      {
-        id: 'gpt-5-chat-latest',
-        name: 'GPT-5 Chat Latest',
-        description: 'Latest GPT-5 model optimized for conversations',
-        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
-        context_window: 128000,
+        description: 'Компактная версия GPT-5',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation'],
+        context_window: 256000,
         max_tokens: 16384,
-        provider: 'openai'
+        provider: 'openai',
+        pricing: { input: 1.50, output: 6.00 }
       },
+      // GPT-5.2 series (latest)
       {
-        id: 'gpt-5',
-        name: 'GPT-5',
-        description: 'Standard GPT-5 model with advanced capabilities',
-        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
-        context_window: 128000,
+        id: 'gpt-5.2-mini',
+        name: 'GPT-5.2 Mini',
+        description: 'Компактная версия GPT-5.2 для быстрых задач',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation'],
+        context_window: 256000,
         max_tokens: 16384,
-        provider: 'openai'
+        provider: 'openai',
+        pricing: { input: 2.00, output: 8.00 }
       },
       {
-        id: 'gpt-5.1-Codex',
-        name: 'GPT-5.1 Codex',
-        description: 'GPT-5.1 model specialized for code generation and programming',
-        capabilities: ['text', 'code-generation', 'function-calling', 'analysis'],
-        context_window: 128000,
-        max_tokens: 16384,
-        provider: 'openai'
-      },
-      {
-        id: 'gpt-4.1',
-        name: 'GPT-4.1',
-        description: 'Refined GPT-4 model with improved performance',
-        capabilities: ['text', 'function-calling', 'code-generation', 'analysis'],
-        context_window: 128000,
-        max_tokens: 8192,
-        provider: 'openai'
-      },
-      {
-        id: 'o3-deep-research',
-        name: 'O3 Deep Research',
-        description: 'Advanced reasoning model for deep research and complex analysis',
-        capabilities: ['text', 'analysis', 'reasoning'],
-        context_window: 128000,
+        id: 'gpt-5.2',
+        name: 'GPT-5.2',
+        description: 'Последняя версия GPT-5 с улучшенными возможностями',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation', 'analysis', 'reasoning'],
+        context_window: 256000,
         max_tokens: 32768,
-        provider: 'openai'
+        provider: 'openai',
+        pricing: { input: 12.00, output: 36.00 }
       },
+      {
+        id: 'gpt-5.2-pro',
+        name: 'GPT-5.2 Pro',
+        description: 'Профессиональная версия GPT-5.2 для сложных задач',
+        capabilities: ['text', 'vision', 'function-calling', 'code-generation', 'analysis', 'reasoning'],
+        context_window: 512000,
+        max_tokens: 65536,
+        provider: 'openai',
+        pricing: { input: 25.00, output: 75.00 }
+      },
+      // Codex models
+      {
+        id: 'codex-mini',
+        name: 'Codex Mini',
+        description: 'Компактная модель для генерации кода',
+        capabilities: ['text', 'code-generation', 'function-calling'],
+        context_window: 192000,
+        max_tokens: 65536,
+        provider: 'openai',
+        pricing: { input: 1.50, output: 6.00 }
+      },
+      // Image models
       {
         id: 'gpt-image-1',
         name: 'GPT Image 1',
-        description: 'GPT model specialized for image generation and understanding',
-        capabilities: ['vision', 'text', 'analysis'],
+        description: 'Модель для генерации и понимания изображений',
+        capabilities: ['vision', 'image-generation'],
+        context_window: 32000,
+        max_tokens: 4096,
+        provider: 'openai',
+        pricing: { input: 5.00, output: 20.00 }
+      },
+      // Audio models
+      {
+        id: 'gpt-4o-audio-preview',
+        name: 'GPT-4o Audio Preview',
+        description: 'GPT-4o с поддержкой аудио ввода/вывода',
+        capabilities: ['text', 'audio', 'function-calling'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 2.50, output: 10.00 }
+      },
+      {
+        id: 'gpt-4o-realtime-preview',
+        name: 'GPT-4o Realtime Preview',
+        description: 'GPT-4o для real-time приложений',
+        capabilities: ['text', 'audio', 'function-calling', 'realtime'],
         context_window: 128000,
         max_tokens: 4096,
-        provider: 'openai'
+        provider: 'openai',
+        pricing: { input: 5.00, output: 20.00 }
       }
     ],
     xai: [
