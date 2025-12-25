@@ -284,6 +284,16 @@ app.get('/models', asyncHandler(async (req, res) => {
         pricing: { input: 10.00, output: 30.00 }
       },
       {
+        id: 'gpt-5-nano',
+        name: 'GPT-5 Nano',
+        description: 'Самая быстрая и экономичная версия GPT-5 для простых задач',
+        capabilities: ['text', 'function-calling'],
+        context_window: 128000,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 0.20, output: 0.80 }
+      },
+      {
         id: 'gpt-5-mini',
         name: 'GPT-5 Mini',
         description: 'Компактная версия GPT-5',
@@ -364,6 +374,132 @@ app.get('/models', asyncHandler(async (req, res) => {
         capabilities: ['text', 'audio', 'function-calling', 'realtime'],
         context_window: 128000,
         max_tokens: 4096,
+        provider: 'openai',
+        pricing: { input: 5.00, output: 20.00 }
+      },
+      // Additional models from research
+      {
+        id: 'gpt-4o-search-preview',
+        name: 'GPT-4o Search Preview',
+        description: 'GPT-4o оптимизированная для поисковых запросов',
+        capabilities: ['text', 'vision', 'search', 'function-calling'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 3.00, output: 12.00 }
+      },
+      {
+        id: 'gpt-4o-mini-search-preview',
+        name: 'GPT-4o Mini Search Preview',
+        description: 'Компактная поисковая модель',
+        capabilities: ['text', 'search', 'function-calling'],
+        context_window: 128000,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 0.50, output: 2.00 }
+      },
+      {
+        id: 'computer-use-preview',
+        name: 'Computer Use Preview',
+        description: 'Модель для автоматизации GUI и управления компьютером',
+        capabilities: ['text', 'vision', 'computer-use', 'function-calling'],
+        context_window: 128000,
+        max_tokens: 16384,
+        provider: 'openai',
+        pricing: { input: 15.00, output: 60.00 }
+      },
+      // Embedding models
+      {
+        id: 'text-embedding-3-large',
+        name: 'Text Embedding 3 Large',
+        description: 'Большая модель для эмбеддингов с высокой точностью',
+        capabilities: ['embedding'],
+        context_window: 8192,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 0.13, output: 0.00 }
+      },
+      {
+        id: 'text-embedding-3-small',
+        name: 'Text Embedding 3 Small',
+        description: 'Компактная модель для эмбеддингов',
+        capabilities: ['embedding'],
+        context_window: 8192,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 0.02, output: 0.00 }
+      },
+      // Moderation models
+      {
+        id: 'omni-moderation-latest',
+        name: 'Omni Moderation Latest',
+        description: 'Унифицированная модерация текста и изображений',
+        capabilities: ['moderation', 'text', 'vision'],
+        context_window: 8192,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 0.00, output: 0.00 }
+      },
+      {
+        id: 'text-moderation-latest',
+        name: 'Text Moderation Latest',
+        description: 'Модерация только текста',
+        capabilities: ['moderation', 'text'],
+        context_window: 8192,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 0.00, output: 0.00 }
+      },
+      // Speech to Text models
+      {
+        id: 'gpt-4o-transcribe',
+        name: 'GPT-4o Transcribe',
+        description: 'Модель для транскрибации аудио в текст',
+        capabilities: ['audio', 'transcription'],
+        context_window: 8192,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 15.00, output: 0.00 }
+      },
+      {
+        id: 'gpt-4o-mini-transcribe',
+        name: 'GPT-4o Mini Transcribe',
+        description: 'Компактная модель для транскрибации',
+        capabilities: ['audio', 'transcription'],
+        context_window: 8192,
+        max_tokens: 8192,
+        provider: 'openai',
+        pricing: { input: 5.00, output: 0.00 }
+      },
+      // Text to Speech models
+      {
+        id: 'gpt-4o-mini-tts',
+        name: 'GPT-4o Mini TTS',
+        description: 'Модель для синтеза речи',
+        capabilities: ['text', 'audio', 'speech-synthesis'],
+        context_window: 4096,
+        max_tokens: 4096,
+        provider: 'openai',
+        pricing: { input: 15.00, output: 0.00 }
+      },
+      // Deep Research models
+      {
+        id: 'o3-deep-research',
+        name: 'O3 Deep Research',
+        description: 'O3 модель для глубокого исследования и анализа',
+        capabilities: ['text', 'reasoning', 'research', 'web-search'],
+        context_window: 200000,
+        max_tokens: 100000,
+        provider: 'openai',
+        pricing: { input: 25.00, output: 100.00 }
+      },
+      {
+        id: 'o4-mini-deep-research',
+        name: 'O4 Mini Deep Research',
+        description: 'Компактная модель для глубокого исследования',
+        capabilities: ['text', 'reasoning', 'research', 'web-search'],
+        context_window: 200000,
+        max_tokens: 100000,
         provider: 'openai',
         pricing: { input: 5.00, output: 20.00 }
       }
